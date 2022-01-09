@@ -1,3 +1,4 @@
+from typing import List
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.constants import gravitational_constant as G
@@ -17,7 +18,7 @@ class Planet:
     def update_position(self, f):
         f /= self.mass
         self.force = self.force + f
-        ds = 2 * self.force * dt ** 2
+        ds = self.force * dt ** 2
         self.position = self.position + ds
 
     def update_trajectory(self):
@@ -25,7 +26,7 @@ class Planet:
 
 
 class Simulator:
-    def __init__(self, planets: [Planet], t: int, dt: float):
+    def __init__(self, planets: List[Planet], t: int, dt: float):
         self.planets = planets
         self.t = t
         self.dt = dt
@@ -64,21 +65,26 @@ class Simulator:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--uniform", action="store_true")
+    parser.add_argument("--n_planets", type=int, default=10)
+    parser.add_argument("--t", type=int, default=600)
+    parser.add_argument("--dt", type=float, default=0.2)
     args = parser.parse_args()
+    n_planets = args.n_planets
+    t = args.t
+    dt = args.dt
     uniform = args.uniform
 
-    n_planets = 2
-    t = 600
-    dt = 0.2
     if uniform:
         planets_position = np.random.uniform(-100, 100, size=(n_planets, 2))
         planets_mass = np.random.uniform(5, 20, size=(n_planets,))
         initial_forces = np.random.uniform(0, 2, size=(n_planets, 2))
     else:
-        planets_position = np.asarray([[-20, -20], [-20, 20]])
+        n_planets = 2
+        planets_position = np.asarray([[-20, -20], [-20, -15]])
         planets_mass = np.asarray([2] * n_planets)
         #initial_forces = np.zeros((n_planets, 2))
-        initial_forces = np.asarray([[2,0], [0, -2]])
+        initial_forces = np.asarray([[2,0], [1, 1]])
+
     planets_mass = np.append(15, planets_mass)
     initial_forces = np.concatenate([[[0, 0]], initial_forces], 0)
     planets_position = np.concatenate([[[0, 0]], planets_position], 0)
@@ -114,7 +120,7 @@ if __name__ == "__main__":
     animation = anim.FuncAnimation(fig, update, fargs=(counter,), frames=t, repeat=True, interval=1)
     print("Saving Animation")
     animation.save(
-        "./Animations/animation6.gif",
+        "./Animations/animation7.gif",
         writer="pillow",
     )
     plt.show()
