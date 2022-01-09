@@ -6,5 +6,6 @@ Directed Force Formula between two planets: <br /><br />
 ![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/equation.svg)
 ![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation5.gif)
 ![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation6.gif)
+![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation7.gif)
 ![alt text](https://github.com/claCase/N-Body/blob/main/Animations/animation.gif)
 ![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation2.gif)
