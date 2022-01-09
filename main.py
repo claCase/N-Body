@@ -31,13 +31,13 @@ class Simulator:
         self.t = t
         self.dt = dt
         self.planets_trajectories = []
+        self.e = 1e-2
 
-    @staticmethod
-    def calc_force(planet1, planet2):
+    def calc_force(self, planet1, planet2):
         const = planet1.mass * planet2.mass  # G
         d = planet2.position - planet1.position
         norm = np.sqrt(d.T.dot(d)) ** 3
-        Fij = const * d / norm
+        Fij = const * d / (norm + self.e)
         return Fij
 
     def calc_tot_forces(self, planets):
@@ -68,22 +68,26 @@ if __name__ == "__main__":
     parser.add_argument("--n_planets", type=int, default=10)
     parser.add_argument("--t", type=int, default=600)
     parser.add_argument("--dt", type=float, default=0.2)
+    parser.add_argument("--save", action="store_true")
+    parser.add_argument("--trace", action="store_true")
     args = parser.parse_args()
     n_planets = args.n_planets
     t = args.t
     dt = args.dt
     uniform = args.uniform
+    save = args.save
+    trace = args.trace
 
     if uniform:
         planets_position = np.random.uniform(-100, 100, size=(n_planets, 2))
         planets_mass = np.random.uniform(5, 20, size=(n_planets,))
-        initial_forces = np.random.uniform(0, 2, size=(n_planets, 2))
+        initial_forces = np.random.uniform(-10, 10, size=(n_planets, 2))
     else:
         n_planets = 2
-        planets_position = np.asarray([[-20, -20], [-20, -15]])
-        planets_mass = np.asarray([2] * n_planets)
+        planets_position = np.asarray([[-20, -20], [-20, 0]])
+        planets_mass = np.asarray([10] * n_planets)
         #initial_forces = np.zeros((n_planets, 2))
-        initial_forces = np.asarray([[2,0], [1, 1]])
+        initial_forces = np.asarray([[2,0], [5, 5]])
 
     planets_mass = np.append(15, planets_mass)
     initial_forces = np.concatenate([[[0, 0]], initial_forces], 0)
@@ -100,9 +104,12 @@ if __name__ == "__main__":
     trajectories = np.asarray(trajectories)
     trajectories = np.swapaxes(trajectories, 0, 1)  # TxNxd
 
-    max_lim = (60, 60)#np.max(trajectories, (0, 1))
-    min_lim = (-60, -60)#np.min(trajectories, (0, 1))
-
+    if uniform:
+        max_lim = (160, 160)
+        min_lim = (-160, -160)
+    else:
+        max_lim = (90, 90)
+        min_lim = (-40, -40)
     counter = np.arange(t)
     counter = np.minimum(counter, 60)
 
@@ -111,16 +118,19 @@ if __name__ == "__main__":
         plt.title(f"Frame {i}")
         for j, p in enumerate(planets):
             plt.scatter(trajectories[i, j, 0], trajectories[i, j, 1], s=np.maximum(p.mass, 50))
-            plt.plot(trajectories[i-counter[i]:i, j, 0], trajectories[i-counter[i]:i, j, 1])
+            if trace:
+                plt.plot(trajectories[i-counter[i]:i, j, 0], trajectories[i-counter[i]:i, j, 1])
             plt.xlim(min_lim[0], max_lim[0])
             plt.ylim(min_lim[1], max_lim[1])
 
 
     fig = plt.figure()
     animation = anim.FuncAnimation(fig, update, fargs=(counter,), frames=t, repeat=True, interval=1)
-    print("Saving Animation")
-    animation.save(
-        "./Animations/animation7.gif",
-        writer="pillow",
-    )
+    if save:
+        print("Saving Animation")
+        animation.save(
+            "./Animations/animation8.gif",
+            writer="pillow",
+        )
+
     plt.show()
