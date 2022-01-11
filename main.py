@@ -86,7 +86,7 @@ if __name__ == "__main__":
         planets_position = np.random.uniform(-100, 100, size=(n_planets, 2))
         planets_mass = np.random.uniform(5, 20, size=(n_planets,))
         initial_forces = np.random.uniform(-10, 10, size=(n_planets, 2))
-
+        planets_mass = np.append(30, planets_mass)
     elif initial == "circle":
         theta = (np.linspace(0, 2 * np.math.pi, n_planets + 1)[:-1]).reshape(-1, 1)
         radious = 30
@@ -98,14 +98,15 @@ if __name__ == "__main__":
         planets_position = np.concatenate([x, y], 1)
         planets_mass = np.tile([10], n_planets)
         initial_forces = np.concatenate([dx, dy], 1)
-    else:
+        planets_mass = np.append(25, planets_mass)
+    elif initial == "spiral":
         n_planets = 2
         planets_position = np.asarray([[-20, -20], [-20, 0]])
         planets_mass = np.asarray([10] * n_planets)
         # initial_forces = np.zeros((n_planets, 2))
         initial_forces = np.asarray([[2, 0], [5, 5]])
+        planets_mass = np.append(15, planets_mass)
 
-    planets_mass = np.append(25, planets_mass)
     initial_forces = np.concatenate([[[0, 0]], initial_forces], 0)
     planets_position = np.concatenate([[[0, 0]], planets_position], 0)
     names = np.arange(n_planets + 1)
@@ -151,7 +152,7 @@ if __name__ == "__main__":
     if save:
         print("Saving Animation")
         animation.save(
-            "./Animations/animation9.gif",
+            "./Animations/animation8.gif",
             writer="pillow",
         )
 
