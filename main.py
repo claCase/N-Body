@@ -152,7 +152,7 @@ if __name__ == "__main__":
     if save:
         print("Saving Animation")
         animation.save(
-            "./Animations/animation8.gif",
+            "./Animations/animation10.gif",
             writer="pillow",
         )
 

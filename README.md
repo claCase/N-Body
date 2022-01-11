@@ -9,7 +9,12 @@ N-Body System Simulation [Wiki Article](https://en.wikipedia.org/wiki/N-body_pro
 python3 .\main.py --initial "circle" --n_planets 10 --t 2500 --dt 0.02 --trace --trace_len 1700 --save 
 ```
 ![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation9.gif)
+<br/><br/> Generate animation parameters: <br/> 
+```console
+python3 .\main.py --initial "spiral" --dt 0.2 --t 1200 --skip 2 --trace --save
+```
 ![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation8.gif)
-![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation7.gif)
-![alt text](https://github.com/claCase/N-Body/blob/main/Animations/animation.gif)
-![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation2.gif)
+```console
+python3 .\main.py --initial "uniform" --n_planets 25 --dt 0.2 --t 1200 --skip 3 --save
+```
+![alt-text](https://github.com/claCase/N-Body/blob/main/Animations/animation10.gif)
