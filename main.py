@@ -40,13 +40,13 @@ class Simulator:
         Fij = const * d / (norm + self.e)
         return Fij
 
-    def calc_tot_forces(self, planets):
-        n_planets = len(planets)
-        f_dim = planets[0].position.shape[0]
+    def calc_tot_forces(self):
+        n_planets = len(self.planets)
+        f_dim = self.planets[0].position.shape[0]
         Fs = np.zeros((n_planets, n_planets, f_dim))
 
-        for i, p1 in enumerate(planets):
-            for j, p2 in enumerate(planets):
+        for i, p1 in enumerate(self.planets):
+            for j, p2 in enumerate(self.planets):
                 if i != j:
                     Fij = self.calc_force(p1, p2)
                     Fs[i, j] = Fij
@@ -55,7 +55,7 @@ class Simulator:
 
     def simulate(self):
         for _ in range(self.t):
-            tot_forces = self.calc_tot_forces(self.planets)
+            tot_forces = self.calc_tot_forces()
             for p, f in zip(self.planets, tot_forces):
                 p.update_position(f)
                 p.update_trajectory()
