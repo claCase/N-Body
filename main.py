@@ -15,7 +15,7 @@ class Planet:
         self.force = force
         self.update_trajectory()
 
-    def update_position(self, f):
+    def update_position(self, f, dt):
         f /= self.mass
         self.force = self.force + f
         ds = self.force * dt ** 2
@@ -57,7 +57,7 @@ class Simulator:
         for _ in range(self.t):
             tot_forces = self.calc_tot_forces()
             for p, f in zip(self.planets, tot_forces):
-                p.update_position(f)
+                p.update_position(f, self.dt)
                 p.update_trajectory()
         return self.planets
 
